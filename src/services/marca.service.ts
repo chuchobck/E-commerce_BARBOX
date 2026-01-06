@@ -2,8 +2,6 @@
 // 🏷️ SERVICIO DE MARCAS
 // =============================================
 import { api } from './api';
-import { getErrorInfo } from '../utils/errorHandler';
-
 import { Marca } from '../types/catalogo.types';
 
 export interface MarcaResponse {
@@ -57,8 +55,6 @@ export const marcaService = {
       const response = await api.get<MarcaResponse>(url);
       return response.data;
     } catch (error) {
-      const errorInfo = getErrorInfo(error);
-      console.error('❌ Error al obtener marcas:', errorInfo);
       throw error;
     }
   },
@@ -73,8 +69,6 @@ export const marcaService = {
       );
       return response.data.data;
     } catch (error) {
-      const errorInfo = getErrorInfo(error);
-      console.error('❌ Error al obtener marcas por categoría:', errorInfo);
       throw error;
     }
   },
@@ -91,8 +85,6 @@ export const marcaService = {
       const response = await api.get<{ status: string; message: string; data: Marca }>(url);
       return response.data.data;
     } catch (error) {
-      const errorInfo = getErrorInfo(error);
-      console.error('❌ Error al obtener marca:', errorInfo);
       throw error;
     }
   },
@@ -112,8 +104,6 @@ export const marcaService = {
       );
       return response.data.data;
     } catch (error) {
-      const errorInfo = getErrorInfo(error);
-      console.error('❌ Error al crear marca:', errorInfo);
       throw error;
     }
   },
@@ -137,8 +127,6 @@ export const marcaService = {
       );
       return response.data.data;
     } catch (error) {
-      const errorInfo = getErrorInfo(error);
-      console.error('❌ Error al actualizar marca:', errorInfo);
       throw error;
     }
   },
@@ -153,8 +141,6 @@ export const marcaService = {
       );
       return response.data.data;
     } catch (error) {
-      const errorInfo = getErrorInfo(error);
-      console.error('❌ Error al eliminar marca:', errorInfo);
       throw error;
     }
   }

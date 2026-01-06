@@ -81,7 +81,6 @@ class PromocionesService {
       const response = await api.get('/promociones/categorias');
       return response.data.data;
     } catch (error) {
-      console.error('Error obteniendo categorías de promoción:', error);
       throw error;
     }
   }
@@ -102,7 +101,6 @@ class PromocionesService {
       const response = await api.get(`/promociones?${params.toString()}`);
       return response.data.data;
     } catch (error) {
-      console.error('Error obteniendo promociones:', error);
       throw error;
     }
   }
@@ -113,7 +111,6 @@ class PromocionesService {
       const response = await api.get(`/promociones/destacadas?limite=${limite}`);
       return response.data.data;
     } catch (error) {
-      console.error('Error obteniendo promociones destacadas:', error);
       throw error;
     }
   }
@@ -124,7 +121,6 @@ class PromocionesService {
       const response = await api.get(`/promociones/${id}`);
       return response.data.data;
     } catch (error) {
-      console.error('Error obteniendo promoción:', error);
       throw error;
     }
   }
@@ -135,7 +131,6 @@ class PromocionesService {
       const response = await api.get('/promociones/countdown/navidad');
       return response.data.data;
     } catch (error) {
-      console.error('Error obteniendo countdown:', error);
       throw error;
     }
   }
