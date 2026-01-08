@@ -1,6 +1,6 @@
 // src/pages/PromocionesPage.tsx - Página de Promociones
 import React, { useState, useEffect, useCallback } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 import Header from '../components/Layout/Header';
 import Footer from '../components/Layout/Footer';
 import { useCarrito } from '../context/CarritoContext';
@@ -37,6 +37,7 @@ const ICONOS_OCASIONES: { [key: string]: string } = {
 
 const PromocionesPage: React.FC = () => {
   const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
   
   // Estados
   const [promociones, setPromociones] = useState<Promocion[]>([]);
@@ -208,9 +209,13 @@ const PromocionesPage: React.FC = () => {
     
     agregarAlCarrito(itemCarrito as any, 1);
     
+    // Guardar origen y navegar al carrito
+    localStorage.setItem('origenCarrito', '/promociones');
+    
     setTimeout(() => {
       setAgregandoId(null);
-    }, 2000);
+      navigate('/carrito');
+    }, 500);
   };
 
   const getIcono = (nombre: string): string => {

@@ -34,6 +34,9 @@ const ProductCard: React.FC<ProductCardProps> = ({ producto, onVerDetalle }) => 
       
       await agregarAlCarrito(producto, cantidad);
       
+      // Guardar página de origen para botón "Seguir Comprando"
+      localStorage.setItem('origenCarrito', '/catalogo');
+      
       // Esperar un poco para mostrar la animación antes de navegar
       setTimeout(() => {
         window.scrollTo({ top: 0, behavior: 'smooth' });

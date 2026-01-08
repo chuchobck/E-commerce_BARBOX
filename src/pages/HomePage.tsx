@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Header from '../components/Layout/Header';
 import Footer from '../components/Layout/Footer';
 import { useCarrito } from '../context/CarritoContext';
@@ -14,8 +14,18 @@ const HomePage: React.FC = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [productosDestacados, setProductosDestacados] = useState<Producto[]>([]);
 
+  const navigate = useNavigate();
   const { agregarAlCarrito } = useCarrito();
   const { toggleFavorito, esFavorito } = useFavoritos();
+
+  // Función para agregar al carrito y navegar
+  const handleAgregarAlCarrito = (producto: Producto) => {
+    agregarAlCarrito(producto);
+    // Guardar página de origen para botón "Seguir Comprando"
+    localStorage.setItem('origenCarrito', '/');
+    // Navegar al carrito
+    setTimeout(() => navigate('/carrito'), 300);
+  };
 
   // Slides del carrusel - Promociones destacadas
   const slides = [
@@ -305,7 +315,7 @@ const HomePage: React.FC = () => {
                       </div>
                       <button
                         className="product-card__btn"
-                        onClick={() => agregarAlCarrito(producto)}
+                        onClick={() => handleAgregarAlCarrito(producto)}
                         aria-label={`Agregar ${producto.descripcion} al carrito`}
                         tabIndex={0}
                       >

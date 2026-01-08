@@ -436,7 +436,11 @@ const CarritoPage: React.FC = () => {
 
                   {/* Continue Shopping */}
                   <div className="cart-actions">
-                    <Link to="/catalogo" className="btn btn--outline">
+                    <Link 
+                      to={localStorage.getItem('origenCarrito') || '/catalogo'} 
+                      className="btn btn--outline"
+                      onClick={() => localStorage.removeItem('origenCarrito')}
+                    >
                       <i className="fas fa-arrow-left"></i>
                       Seguir Comprando
                     </Link>

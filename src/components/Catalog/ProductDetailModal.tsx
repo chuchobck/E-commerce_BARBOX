@@ -38,6 +38,8 @@ const ProductDetailModal: React.FC<ProductDetailModalProps> = ({ producto, isOpe
   const handleAgregarCarrito = async () => {
     if (enStock) {
       await agregarAlCarrito(producto, cantidad);
+      // Guardar página de origen para botón "Seguir Comprando"
+      localStorage.setItem('origenCarrito', '/catalogo');
       // Cerrar modal, scroll to top y navegar al carrito
       onClose();
       window.scrollTo({ top: 0, behavior: 'smooth' });

@@ -97,12 +97,18 @@ const FavoritosPage: React.FC = () => {
   const handleAgregarCarrito = (producto: Producto) => {
     agregarAlCarrito(producto);
     mostrarNotificacion(`¡${producto.nombre} agregado al carrito!`, 'success');
+    // Guardar origen y navegar al carrito
+    localStorage.setItem('origenCarrito', '/favoritos');
+    setTimeout(() => navigate('/carrito'), 500);
   };
 
   // Agregar todos al carrito
   const handleAgregarTodos = () => {
     productos.forEach(producto => agregarAlCarrito(producto));
     mostrarNotificacion(`¡${productos.length} producto(s) agregados al carrito!`, 'success');
+    // Guardar origen y navegar al carrito
+    localStorage.setItem('origenCarrito', '/favoritos');
+    setTimeout(() => navigate('/carrito'), 500);
   };
 
   // Quitar de favoritos
