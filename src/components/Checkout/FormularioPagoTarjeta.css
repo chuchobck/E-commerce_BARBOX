@@ -86,11 +86,12 @@
   font-size: 0.85rem;
   display: flex;
   align-items: center;
-  gap: 0.25rem;
+  gap: 0.5rem;
+  margin-top: 0.25rem;
 }
 
-.error-message::before {
-  content: '⚠️';
+.error-message i {
+  font-size: 0.9rem;
 }
 
 .help-text {
@@ -98,6 +99,22 @@
   font-size: 0.85rem;
   margin-top: 0.25rem;
   display: block;
+}
+
+/* Estados de error en form-group */
+.form-group.has-error input {
+  border-color: #e74c3c;
+  background-color: #fef2f2;
+}
+
+.form-group.has-error input:focus {
+  box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.15);
+}
+
+/* Tipo de tarjeta */
+.tipo-tarjeta {
+  font-weight: 600;
+}
 }
 
 .form-row {

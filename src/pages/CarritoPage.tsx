@@ -124,16 +124,29 @@ const CarritoPage: React.FC = () => {
     setTimeout(() => setMensajeNotificacion(null), 3000);
   };
 
-  // Manejar cambio de cantidad
+  // Manejar cambio de cantidad - Validación: no menor a 1, no mayor que stock
   const handleCantidadChange = (idProducto: string, nuevaCantidad: number) => {
+    // ✅ No permitir cantidades menores a 1
     if (nuevaCantidad < 1) {
       handleEliminar(idProducto);
       return;
     }
+    
+    // ✅ Validar contra el stock disponible
+    const item = items.find(i => i.producto.id_producto === idProducto);
+    const stockDisponible = item?.producto.stock || item?.producto.saldo_actual || 99;
+    
+    if (nuevaCantidad > stockDisponible) {
+      mostrarNotificacion(`Stock disponible: ${stockDisponible} unidades`, 'error');
+      return;
+    }
+    
+    // Límite máximo general
     if (nuevaCantidad > 99) {
       mostrarNotificacion('Cantidad máxima: 99 unidades', 'info');
       return;
     }
+    
     actualizarCantidad(idProducto, nuevaCantidad);
     mostrarNotificacion('Cantidad actualizada', 'success');
   };

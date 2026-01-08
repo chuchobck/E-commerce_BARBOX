@@ -503,22 +503,30 @@ const Register: React.FC = () => {
               <i className="fas fa-exclamation-circle"></i> {fieldErrors.password}
             </span>
           )}
-          <div className="password-hints">
-            <small>
-              <i className={`fas fa-${formData.password.length >= 8 ? 'check' : 'times'}`}></i> Mínimo 8 caracteres
-            </small>
-            <small>
-              <i className={`fas fa-${/[A-Z]/.test(formData.password) ? 'check' : 'times'}`}></i> Una letra mayúscula
-            </small>
-            <small>
-              <i className={`fas fa-${/[a-z]/.test(formData.password) ? 'check' : 'times'}`}></i> Una letra minúscula
-            </small>
-            <small>
-              <i className={`fas fa-${/[0-9]/.test(formData.password) ? 'check' : 'times'}`}></i> Un número
-            </small>
-            <small>
-              <i className={`fas fa-${/[^A-Za-z0-9]/.test(formData.password) ? 'check' : 'times'}`}></i> Un símbolo (@, #, !, etc.)
-            </small>
+          <div className="password-requirements-list">
+            <p className="password-requirements-title">La contraseña debe tener:</p>
+            <ul className="password-checklist">
+              <li className={formData.password.length >= 8 ? 'valid' : ''}>
+                <i className={`fas fa-${formData.password.length >= 8 ? 'check-circle' : 'circle'}`}></i>
+                Mínimo 8 caracteres
+              </li>
+              <li className={/[A-Z]/.test(formData.password) ? 'valid' : ''}>
+                <i className={`fas fa-${/[A-Z]/.test(formData.password) ? 'check-circle' : 'circle'}`}></i>
+                Una letra mayúscula
+              </li>
+              <li className={/[a-z]/.test(formData.password) ? 'valid' : ''}>
+                <i className={`fas fa-${/[a-z]/.test(formData.password) ? 'check-circle' : 'circle'}`}></i>
+                Una letra minúscula
+              </li>
+              <li className={/[0-9]/.test(formData.password) ? 'valid' : ''}>
+                <i className={`fas fa-${/[0-9]/.test(formData.password) ? 'check-circle' : 'circle'}`}></i>
+                Un número
+              </li>
+              <li className={/[^A-Za-z0-9]/.test(formData.password) ? 'valid' : ''}>
+                <i className={`fas fa-${/[^A-Za-z0-9]/.test(formData.password) ? 'check-circle' : 'circle'}`}></i>
+                Un símbolo (@, #, !, etc.)
+              </li>
+            </ul>
           </div>
         </div>
 

@@ -11,14 +11,31 @@ const MiCuentaPage: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'perfil' | 'seguridad'>('perfil');
   const [editMode, setEditMode] = useState(false);
   
-  // Estado del formulario de perfil
+  // Estado del formulario de perfil - Se sincroniza con los datos del usuario
   const [formData, setFormData] = useState({
-    nombre: user?.cliente?.nombre1 || '',
-    apellido: user?.cliente?.apellido1 || '',
-    email: user?.email || '',
-    telefono: user?.cliente?.telefono || '',
-    direccion: user?.cliente?.direccion || '',
+    nombre: '',
+    apellido: '',
+    email: '',
+    telefono: '',
+    celular: '',
+    direccion: '',
+    ruc_cedula: '',
   });
+
+  // ✅ Sincronizar datos del usuario al cargar o cuando cambie el usuario
+  React.useEffect(() => {
+    if (user) {
+      setFormData({
+        nombre: user.cliente?.nombre1 || '',
+        apellido: user.cliente?.apellido1 || '',
+        email: user.email || '',
+        telefono: user.cliente?.telefono || '',
+        celular: user.cliente?.celular || '',
+        direccion: user.cliente?.direccion || '',
+        ruc_cedula: user.cliente?.ruc_cedula || '',
+      });
+    }
+  }, [user]);
 
   // Redirigir si no está autenticado
   React.useEffect(() => {
@@ -177,17 +194,45 @@ const MiCuentaPage: React.FC = () => {
                         />
                       </div>
 
+                      <div className="form-row">
+                        <div className="form-group">
+                          <label htmlFor="telefono">Teléfono</label>
+                          <input
+                            type="tel"
+                            id="telefono"
+                            name="telefono"
+                            value={formData.telefono}
+                            onChange={handleInputChange}
+                            disabled={!editMode}
+                            placeholder="022 123 4567"
+                          />
+                        </div>
+                        <div className="form-group">
+                          <label htmlFor="celular">Celular</label>
+                          <input
+                            type="tel"
+                            id="celular"
+                            name="celular"
+                            value={formData.celular}
+                            onChange={handleInputChange}
+                            disabled={!editMode}
+                            placeholder="099 123 4567"
+                          />
+                        </div>
+                      </div>
+
                       <div className="form-group">
-                        <label htmlFor="telefono">Teléfono</label>
+                        <label htmlFor="ruc_cedula">Cédula / RUC</label>
                         <input
-                          type="tel"
-                          id="telefono"
-                          name="telefono"
-                          value={formData.telefono}
+                          type="text"
+                          id="ruc_cedula"
+                          name="ruc_cedula"
+                          value={formData.ruc_cedula}
                           onChange={handleInputChange}
-                          disabled={!editMode}
-                          placeholder="+593 98 765 4321"
+                          disabled={true}
+                          placeholder="1234567890"
                         />
+                        <small className="field-hint">Este campo no se puede modificar</small>
                       </div>
 
                       <div className="form-group">
