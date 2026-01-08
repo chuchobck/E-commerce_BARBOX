@@ -47,9 +47,9 @@ const HomePage: React.FC = () => {
     const cargarDatos = async () => {
       try {
         console.log('🏠 HomePage: Cargando productos destacados...');
-        const response = await catalogoService.getProductos({ limite: 4, ordenarPor: 'popular' });
+        const response = await catalogoService.getProductos({ limite: 8, ordenarPor: 'popular' });
         
-        // ✅ El servicio ya normaliza la respuesta a ProductosResponse
+        // ✅ El servicio ya normaliza la respuesta a ProductosResponse - limitado a 8 (2 filas de 4)
         const productos = response?.productos || [];
         
         console.log('✅ Productos recibidos:', productos.length);
@@ -276,9 +276,10 @@ const HomePage: React.FC = () => {
                     <button
                       className={`product-card__wishlist ${esFavorito(producto.id_producto) ? 'active' : ''}`}
                       onClick={() => toggleFavorito(producto.id_producto)}
-                      aria-label="Agregar a favoritos"
+                      aria-label={esFavorito(producto.id_producto) ? 'Quitar de favoritos' : 'Agregar a favoritos'}
+                      tabIndex={0}
                     >
-                      <i className={esFavorito(producto.id_producto) ? 'fas fa-heart' : 'far fa-heart'}></i>
+                      <i className={esFavorito(producto.id_producto) ? 'fas fa-heart' : 'far fa-heart'} aria-hidden="true"></i>
                     </button>
                     <img
                       src={getImagenProductoUrl(producto.imagen_url)}
@@ -305,6 +306,8 @@ const HomePage: React.FC = () => {
                       <button
                         className="product-card__btn"
                         onClick={() => agregarAlCarrito(producto)}
+                        aria-label={`Agregar ${producto.descripcion} al carrito`}
+                        tabIndex={0}
                       >
                         Comprar
                       </button>

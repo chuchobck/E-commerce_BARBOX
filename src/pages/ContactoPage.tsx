@@ -31,6 +31,8 @@ const ContactoPage: React.FC = () => {
                 className="quick-contact-card quick-contact-card--whatsapp"
                 target="_blank"
                 rel="noopener noreferrer"
+                tabIndex={0}
+                aria-label="Contactar por WhatsApp al +593 99 173 0968"
               >
                 <div className="quick-contact-card__icon">
                   <i className="fab fa-whatsapp"></i>

@@ -96,6 +96,8 @@ const MiCuentaPage: React.FC = () => {
                   <button 
                     className={`cuenta-nav__item ${activeTab === 'perfil' ? 'active' : ''}`}
                     onClick={() => setActiveTab('perfil')}
+                    tabIndex={0}
+                    aria-current={activeTab === 'perfil' ? 'page' : undefined}
                   >
                     <i className="fas fa-user-circle"></i>
                     <span>Mi Perfil</span>
@@ -103,6 +105,8 @@ const MiCuentaPage: React.FC = () => {
                   <button 
                     className={`cuenta-nav__item ${activeTab === 'seguridad' ? 'active' : ''}`}
                     onClick={() => setActiveTab('seguridad')}
+                    tabIndex={0}
+                    aria-current={activeTab === 'seguridad' ? 'page' : undefined}
                   >
                     <i className="fas fa-shield-alt"></i>
                     <span>Seguridad</span>

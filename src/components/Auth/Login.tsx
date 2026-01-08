@@ -137,6 +137,9 @@ const Login: React.FC = () => {
               placeholder="ejemplo@correo.com"
               disabled={loading}
               autoComplete="email"
+              tabIndex={1}
+              aria-describedby={fieldErrors.email && touched.email ? "email-error" : undefined}
+              aria-invalid={fieldErrors.email && touched.email ? "true" : "false"}
             />
             {email && !fieldErrors.email && (
               <span className="input-success-icon">
@@ -167,8 +170,9 @@ const Login: React.FC = () => {
               onBlur={() => handleBlur('password')}
               placeholder="Ingresa tu contraseña"
               disabled={loading}
-              autoComplete="current-password"
-            />
+              autoComplete="current-password"              tabIndex={2}
+              aria-describedby={fieldErrors.password && touched.password ? "password-error" : undefined}
+              aria-invalid={fieldErrors.password && touched.password ? "true" : "false"}            />
             <button
               type="button"
               className="toggle-password-modern"

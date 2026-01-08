@@ -77,8 +77,8 @@ const Footer: React.FC = () => {
 
               <ul className="contact-list">
                 <li>
-                  <i className="fab fa-whatsapp"></i>
-                  <a href="https://wa.me/593991730968" target="_blank" rel="noopener noreferrer">
+                  <i className="fab fa-whatsapp" aria-hidden="true"></i>
+                  <a href="https://wa.me/593991730968" target="_blank" rel="noopener noreferrer" tabIndex={0} aria-label="Contactar por WhatsApp al +593 99 173 0968">
                     +593 99 173 0968
                   </a>
                 </li>
@@ -86,7 +86,7 @@ const Footer: React.FC = () => {
 
               {/* Social Media */}
               <div className="footer-social" role="group" aria-label="Redes sociales">
-                <a href="https://instagram.com/barbox" target="_blank" rel="noopener noreferrer" aria-label="Síguenos en Instagram (abre en nueva ventana)">
+                <a href="https://instagram.com/barbox" target="_blank" rel="noopener noreferrer" aria-label="Síguenos en Instagram (abre en nueva ventana)" tabIndex={0}>
                   <i className="fab fa-instagram" aria-hidden="true"></i>
                   <span>@barbox</span>
                 </a>
@@ -97,11 +97,11 @@ const Footer: React.FC = () => {
             <div className="footer-col">
               <h3 className="footer-title">Navegación</h3>
               <ul className="footer-list">
-                <li><a href="/" onClick={handleLinkClick('/')}>Inicio</a></li>
-                <li><a href="/catalogo" onClick={handleLinkClick('/catalogo')}>Catálogo</a></li>
-                <li><a href="/promociones" onClick={handleLinkClick('/promociones')}>Promociones</a></li>
-                <li><a href="/contacto" onClick={handleLinkClick('/contacto')}>Contacto</a></li>
-                <li><a href="/acerca" onClick={handleLinkClick('/acerca')}>Nosotros</a></li>
+                <li><Link to="/" tabIndex={0}>Inicio</Link></li>
+                <li><Link to="/catalogo" tabIndex={0}>Catálogo</Link></li>
+                <li><Link to="/promociones" tabIndex={0}>Promociones</Link></li>
+                <li><Link to="/contacto" tabIndex={0}>Contacto</Link></li>
+                <li><Link to="/acerca" tabIndex={0}>Nosotros</Link></li>
               </ul>
             </div>
 
@@ -109,12 +109,12 @@ const Footer: React.FC = () => {
             <div className="footer-col">
               <h3 className="footer-title">Categorías</h3>
               <ul className="footer-list">
-                <li><Link to="/catalogo?categoriaId=1" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>Whisky</Link></li>
-                <li><Link to="/catalogo?categoriaId=2" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>Vinos</Link></li>
-                <li><Link to="/catalogo?categoriaId=3" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>Cervezas</Link></li>
-                <li><Link to="/catalogo?categoriaId=4" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>Ron</Link></li>
-                <li><Link to="/catalogo?categoriaId=5" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>Vodka</Link></li>
-                <li><Link to="/catalogo" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>Ver todo</Link></li>
+                <li><Link to="/catalogo?categoriaId=1" tabIndex={0}>Whisky</Link></li>
+                <li><Link to="/catalogo?categoriaId=2" tabIndex={0}>Vinos</Link></li>
+                <li><Link to="/catalogo?categoriaId=3" tabIndex={0}>Cervezas</Link></li>
+                <li><Link to="/catalogo?categoriaId=4" tabIndex={0}>Ron</Link></li>
+                <li><Link to="/catalogo?categoriaId=5" tabIndex={0}>Vodka</Link></li>
+                <li><Link to="/catalogo" tabIndex={0}>Ver todo</Link></li>
               </ul>
             </div>
 
@@ -122,12 +122,12 @@ const Footer: React.FC = () => {
             <div className="footer-col">
               <h3 className="footer-title">Mi Cuenta</h3>
               <ul className="footer-list">
-                <li><a href="/login" onClick={handleLinkClick('/login')}>Iniciar Sesión</a></li>
-                <li><a href="/register" onClick={handleLinkClick('/register')}>Registrarse</a></li>
-                <li><a href="/mi-cuenta" onClick={handleLinkClick('/mi-cuenta')}>Mi Perfil</a></li>
-                <li><a href="/mis-pedidos" onClick={handleLinkClick('/mis-pedidos')}>Mis Pedidos</a></li>
-                <li><a href="/carrito" onClick={handleLinkClick('/carrito')}>Mi Carrito</a></li>
-                <li><a href="/favoritos" onClick={handleLinkClick('/favoritos')}>Favoritos</a></li>
+                <li><Link to="/login" tabIndex={0}>Iniciar Sesión</Link></li>
+                <li><Link to="/register" tabIndex={0}>Registrarse</Link></li>
+                <li><Link to="/mi-cuenta" tabIndex={0}>Mi Perfil</Link></li>
+                <li><Link to="/mis-pedidos" tabIndex={0}>Mis Pedidos</Link></li>
+                <li><Link to="/carrito" tabIndex={0}>Mi Carrito</Link></li>
+                <li><Link to="/favoritos" tabIndex={0}>Favoritos</Link></li>
               </ul>
             </div>
 
@@ -151,7 +151,7 @@ const Footer: React.FC = () => {
                   aria-required="true"
                   autoComplete="email"
                 />
-                <button type="submit" aria-label="Suscribirse al newsletter">
+                <button type="submit" aria-label="Suscribirse al newsletter" tabIndex={0}>
                   <i className="fas fa-paper-plane" aria-hidden="true"></i>
                 </button>
               </form>
@@ -185,13 +185,14 @@ const Footer: React.FC = () => {
             <p className="footer-disclaimer">
               Las marcas e imágenes pertenecen a sus respectivos propietarios.
             </p>
-            <a
-              href="#top"
+            <button
+              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
               className="back-to-top"
               aria-label="Volver al inicio de la página"
+              tabIndex={0}
             >
               <i className="fas fa-arrow-up" aria-hidden="true"></i> <span>Arriba</span>
-            </a>
+            </button>
           </div>
         </div>
       </div>
