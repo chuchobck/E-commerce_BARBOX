@@ -46,9 +46,11 @@ const CarritoPage: React.FC = () => {
     const cargarRecomendados = async () => {
       try {
         const response = await catalogoService.getProductos({ limite: 4, ordenarPor: 'popular' });
+        // ✅ El servicio ya normaliza la respuesta
+        const productos = response?.productos || [];
         // Filtrar productos que ya están en el carrito
         const productosEnCarrito = items.map(item => item.producto.id_producto);
-        const filtrados = response.productos.filter(p => !productosEnCarrito.includes(p.id_producto));
+        const filtrados = productos.filter(p => !productosEnCarrito.includes(p.id_producto));
         setProductosRecomendados(filtrados.slice(0, 4));
       } catch (error) {
         console.error('Error cargando recomendados:', error);

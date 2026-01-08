@@ -107,30 +107,30 @@ const CatalogoPage: React.FC = () => {
     const paginaACargar = reset ? 1 : paginaActual;
 
     try {
-  console.log('🔍 Cargando productos con filtros:', { ...filtros, pagina: paginaACargar });
-  const response = await catalogoService.getProductos({ ...filtros, pagina: paginaACargar });
-  console.log('✅ Respuesta del backend:', response);
-  
-  // ✅ El backend devuelve un array directo
-  const productos = Array.isArray(response) ? response : (response.productos || response.data || []);
-  const total = Array.isArray(response) ? response.length : (response.total || productos.length);
-  const totalPaginas = Math.ceil(total / productosPorPagina);
-  
-  console.log('📦 Total productos recibidos:', productos.length);
+      console.log('🔍 Cargando productos con filtros:', { ...filtros, pagina: paginaACargar });
+      const response = await catalogoService.getProductos({ ...filtros, pagina: paginaACargar });
+      console.log('✅ Respuesta del backend:', response);
+      
+      // ✅ El servicio ya normaliza la respuesta a ProductosResponse
+      const productos = response?.productos || [];
+      const total = response?.total || productos.length;
+      const totalPaginas = Math.ceil(total / productosPorPagina);
+      
+      console.log('📦 Total productos recibidos:', productos.length);
 
-  if (reset) {
-    setProductos(productos);
-  } else {
-    setProductos(prev => [...prev, ...productos]);
-  }
+      if (reset) {
+        setProductos(productos);
+      } else {
+        setProductos(prev => [...prev, ...productos]);
+      }
 
-  setTotalProductos(total);
-  setHayMasProductos(productos.length === productosPorPagina && paginaACargar < totalPaginas);
+      setTotalProductos(total);
+      setHayMasProductos(productos.length === productosPorPagina && paginaACargar < totalPaginas);
 
-  if (!reset && productos.length > 0) {
-    setPaginaActual(prev => prev + 1);
-  }
-} catch (err: any) {
+      if (!reset && productos.length > 0) {
+        setPaginaActual(prev => prev + 1);
+      }
+    } catch (err: any) {
   console.error('❌ ERROR cargando productos:', err);
   console.error('❌ ERROR details:', err.response?.data || err.message);
   setError(`Error al cargar productos: ${err.response?.data?.error || err.message}`);

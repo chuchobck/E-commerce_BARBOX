@@ -85,9 +85,19 @@ export const catalogoService = {
       }
 
       const response = await retryHandler(() =>
-        api.get<{ data: ProductosResponse }>(`${API_URL}/productos?${params.toString()}`)
+        api.get(`${API_URL}/productos?${params.toString()}`)
       );
-      return response.data.data;
+      
+      // ✅ Normalizar respuesta del backend a ProductosResponse
+      const backendData = response.data?.data || response.data;
+      const productos = Array.isArray(backendData) ? backendData : (backendData?.productos || []);
+      
+      return {
+        productos,
+        total: productos.length,
+        pagina: filtros?.pagina || 1,
+        totalPaginas: Math.ceil(productos.length / (filtros?.limite || 10))
+      };
     } catch (error) {
       const errorInfo = getErrorInfo(error);
       console.error('❌ Error al obtener productos:', errorInfo);

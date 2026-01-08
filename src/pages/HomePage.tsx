@@ -49,8 +49,8 @@ const HomePage: React.FC = () => {
         console.log('🏠 HomePage: Cargando productos destacados...');
         const response = await catalogoService.getProductos({ limite: 4, ordenarPor: 'popular' });
         
-        // ✅ El backend devuelve un array directo, no un objeto con .productos
-        const productos = Array.isArray(response) ? response : (response.productos || response.data || []);
+        // ✅ El servicio ya normaliza la respuesta a ProductosResponse
+        const productos = response?.productos || [];
         
         console.log('✅ Productos recibidos:', productos.length);
         if (productos.length > 0) {
