@@ -107,39 +107,44 @@ const CatalogoPage: React.FC = () => {
     const paginaACargar = reset ? 1 : paginaActual;
 
     try {
-      console.log('🔍 Cargando productos con filtros:', { ...filtros, pagina: paginaACargar });
-      const response = await catalogoService.getProductos({ ...filtros, pagina: paginaACargar });
-      console.log('✅ Respuesta del backend:', response);
-      console.log('📦 Total productos recibidos:', response.productos?.length || 0);
+  console.log('🔍 Cargando productos con filtros:', { ...filtros, pagina: paginaACargar });
+  const response = await catalogoService.getProductos({ ...filtros, pagina: paginaACargar });
+  console.log('✅ Respuesta del backend:', response);
+  
+  // ✅ El backend devuelve un array directo
+  const productos = Array.isArray(response) ? response : (response.productos || response.data || []);
+  const total = Array.isArray(response) ? response.length : (response.total || productos.length);
+  const totalPaginas = Math.ceil(total / productosPorPagina);
+  
+  console.log('📦 Total productos recibidos:', productos.length);
 
-      if (reset) {
-        setProductos(response.productos);
-      } else {
-        setProductos(prev => [...prev, ...response.productos]);
-      }
+  if (reset) {
+    setProductos(productos);
+  } else {
+    setProductos(prev => [...prev, ...productos]);
+  }
 
-      setTotalProductos(response.total);
-      setHayMasProductos(response.productos.length === productosPorPagina && paginaACargar < response.totalPaginas);
+  setTotalProductos(total);
+  setHayMasProductos(productos.length === productosPorPagina && paginaACargar < totalPaginas);
 
-      if (!reset && response.productos.length > 0) {
-        setPaginaActual(prev => prev + 1);
-      }
-    } catch (err: any) {
-      console.error('❌ ERROR cargando productos:', err);
-      console.error('❌ ERROR details:', err.response?.data || err.message);
-      setError(`Error al cargar productos: ${err.response?.data?.error || err.message}`);
+  if (!reset && productos.length > 0) {
+    setPaginaActual(prev => prev + 1);
+  }
+} catch (err: any) {
+  console.error('❌ ERROR cargando productos:', err);
+  console.error('❌ ERROR details:', err.response?.data || err.message);
+  setError(`Error al cargar productos: ${err.response?.data?.error || err.message}`);
 
-      if (reset) {
-        // TEMPORAL: Datos de prueba para desarrollo
-        console.warn('⚠️  Usando productos de prueba por error en backend');
-        setProductos(getProductosDePrueba());
-        setTotalProductos(8);
-        setHayMasProductos(false);
-      }
-    } finally {
-      setLoading(false);
-      setLoadingMore(false);
-    }
+  if (reset) {
+    console.warn('⚠️  Usando productos de prueba por error en backend');
+    setProductos(getProductosDePrueba());
+    setTotalProductos(8);
+    setHayMasProductos(false);
+  }
+} finally {
+  setLoading(false);
+  setLoadingMore(false);
+}
   }, [filtros, paginaActual]);
 
   useEffect(() => {

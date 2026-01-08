@@ -42,15 +42,22 @@ const HomePage: React.FC = () => {
     }
   ];
 
-  // Cargar datos
+  // Cargar datos - CORREGIDO para manejar respuesta del backend
   useEffect(() => {
     const cargarDatos = async () => {
       try {
         console.log('🏠 HomePage: Cargando productos destacados...');
-        const prods = await catalogoService.getProductos({ limite: 4, ordenarPor: 'popular' });
-        console.log('✅ Productos destacados recibidos:', prods.productos);
-        console.log('📸 Primera imagen_url:', prods.productos[0]?.imagen_url);
-        setProductosDestacados(prods.productos);
+        const response = await catalogoService.getProductos({ limite: 4, ordenarPor: 'popular' });
+        
+        // ✅ El backend devuelve un array directo, no un objeto con .productos
+        const productos = Array.isArray(response) ? response : (response.productos || response.data || []);
+        
+        console.log('✅ Productos recibidos:', productos.length);
+        if (productos.length > 0) {
+          console.log('📸 Primera imagen:', productos[0]?.imagen_url);
+        }
+        
+        setProductosDestacados(productos);
       } catch (error) {
         console.error('❌ Error cargando datos:', error);
         setProductosDestacados(getProductosFallback());
@@ -135,18 +142,6 @@ const HomePage: React.FC = () => {
     { nombre: 'Cerveza', icon: 'fa-beer', count: '120+', categoriaId: 5 },
     { nombre: 'Cocteles', icon: 'fa-blender', count: '40+', categoriaId: 6 }
   ];
-
-  // Obtener icono de categoría
-  const getCategoryIcon = (nombre: string): string => {
-    const lower = nombre.toLowerCase();
-    if (lower.includes('vino') || lower.includes('tinto') || lower.includes('blanco')) return 'fa-wine-glass';
-    if (lower.includes('whisky') || lower.includes('whiskey')) return 'fa-glass-whiskey';
-    if (lower.includes('ron')) return 'fa-cocktail';
-    if (lower.includes('vodka')) return 'fa-fill-drip';
-    if (lower.includes('ginebra') || lower.includes('gin')) return 'fa-glass-martini-alt';
-    if (lower.includes('cerveza')) return 'fa-beer';
-    return 'fa-wine-bottle';
-  };
 
   return (
     <div className="home-page">
