@@ -12,14 +12,12 @@ interface ProductCardProps {
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({ producto, onVerDetalle }) => {
-  const [cantidad, setCantidad] = useState(1);
   const [animandoCarrito, setAnimandoCarrito] = useState(false);
   const navigate = useNavigate();
-  const { agregarAlCarrito, estaEnCarrito } = useCarrito();
+  const { agregarAlCarrito } = useCarrito();
   const { toggleFavorito, esFavorito } = useFavoritos();
 
   const enFavoritos = esFavorito(producto.id_producto);
-  const enCarrito = estaEnCarrito(producto.id_producto);
   const tieneDescuento = producto.precio_regular && Number(producto.precio_regular) > Number(producto.precio_venta);
   const descuentoPorcentaje = tieneDescuento 
     ? Math.round(((Number(producto.precio_regular) - Number(producto.precio_venta)) / Number(producto.precio_regular)) * 100)
@@ -32,7 +30,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ producto, onVerDetalle }) => 
       // Activar animación
       setAnimandoCarrito(true);
       
-      await agregarAlCarrito(producto, cantidad);
+      await agregarAlCarrito(producto, 1);
       
       // Guardar página de origen para botón "Seguir Comprando"
       localStorage.setItem('origenCarrito', '/catalogo');
@@ -170,36 +168,14 @@ const ProductCard: React.FC<ProductCardProps> = ({ producto, onVerDetalle }) => 
       <div className="product-card__acciones">
         {enStock ? (
           <>
-            <div className="product-card__cantidad" role="group" aria-label={`Cantidad para ${producto.descripcion}`}>
-              <button 
-                onClick={(e) => { e.stopPropagation(); setCantidad(Math.max(1, cantidad - 1)); }}
-                disabled={cantidad <= 1}
-                aria-label="Reducir cantidad"
-                type="button"
-              >
-                <i className="fas fa-minus" aria-hidden="true"></i>
-              </button>
-              <span aria-live="polite" aria-atomic="true">
-                <span className="sr-only">Cantidad seleccionada:</span> {cantidad}
-              </span>
-              <button 
-                onClick={(e) => { e.stopPropagation(); setCantidad(Math.min(producto.saldo_actual || 10, cantidad + 1)); }}
-                disabled={cantidad >= (producto.saldo_actual || 10)}
-                aria-label="Aumentar cantidad"
-                type="button"
-              >
-                <i className="fas fa-plus" aria-hidden="true"></i>
-              </button>
-            </div>
             <button 
-              className={`product-card__agregar ${enCarrito ? 'en-carrito' : ''} ${animandoCarrito ? 'animando-carrito' : ''}`}
+              className={`product-card__agregar ${animandoCarrito ? 'animando-carrito' : ''}`}
               onClick={handleAgregarCarrito}
-              aria-label={enCarrito ? `${producto.descripcion} ya está en el carrito` : `Agregar ${cantidad} ${cantidad > 1 ? 'unidades' : 'unidad'} de ${producto.descripcion} al carrito`}
-              aria-pressed={enCarrito}
+              aria-label={`Agregar 1 unidad de ${producto.descripcion} al carrito`}
               type="button"
             >
-              <i className={`fas fa-${enCarrito ? 'check' : 'cart-plus'} ${animandoCarrito ? 'icon-volando' : ''}`} aria-hidden="true"></i>
-              <span>{enCarrito ? 'En Carrito' : 'Agregar'}</span>
+              <i className={`fas fa-cart-plus ${animandoCarrito ? 'icon-volando' : ''}`} aria-hidden="true"></i>
+              <span>Agregar</span>
             </button>
           </>
         ) : (

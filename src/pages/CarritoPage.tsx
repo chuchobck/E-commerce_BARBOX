@@ -317,11 +317,10 @@ const CarritoPage: React.FC = () => {
                 </Link>
               </div>
             ) : (
-              <div className="cart-layout">
                 {/* Cart Items */}
                 <div className="cart-items">
                   <div className="cart-items__header">
-                    <h2>Productos en tu carrito ({totalItems})</h2>
+                    <h2>Resumen de compra</h2>
                     <button className="btn-text" onClick={handleVaciarCarrito}>
                       <i className="fas fa-trash"></i>
                       Vaciar carrito
