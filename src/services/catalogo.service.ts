@@ -10,8 +10,6 @@ import {
   FiltrosDinamicos 
 } from '../types/catalogo.types';
 
-const API_URL = '/catalogo';
-
 // Crear handler de retry para operaciones de red
 const retryHandler = createRetryHandler(3, 1000);
 
@@ -19,8 +17,8 @@ export const catalogoService = {
   // ==================== CATEGORÍAS ====================
   async getCategorias(): Promise<Categoria[]> {
     try {
-      const response = await retryHandler(() => 
-        api.get<{ data: Categoria[] }>(`${API_URL}/categorias`)
+      const response = await retryHandler(() =>
+        api.get<{ data: Categoria[] }>('/categorias')
       );
       return response.data.data;
     } catch (error) {
@@ -32,7 +30,7 @@ export const catalogoService = {
 
   async getCategoriaById(id: number): Promise<Categoria> {
     try {
-      const response = await api.get<{ data: Categoria }>(`${API_URL}/categorias/${id}`);
+      const response = await api.get<{ data: Categoria }>(`/categorias/${id}`);
       return response.data.data;
     } catch (error) {
       const errorInfo = getErrorInfo(error);
@@ -85,7 +83,7 @@ export const catalogoService = {
       }
 
       const response = await retryHandler(() =>
-        api.get(`${API_URL}/productos?${params.toString()}`)
+        api.get(`/productos/buscar?${params.toString()}`)
       );
       
       console.log('🔍 Respuesta completa del backend:', response.data);
@@ -112,12 +110,12 @@ export const catalogoService = {
   },
 
   async getProductoById(id: string): Promise<Producto> {
-    const response = await api.get<{ data: Producto }>(`${API_URL}/productos/${id}`);
+    const response = await api.get<{ data: Producto }>(`/productos/${id}`);
     return response.data.data;
   },
 
   async buscarProductos(query: string): Promise<Producto[]> {
-    const response = await api.get<{ data: Producto[] }>(`${API_URL}/productos/buscar?q=${encodeURIComponent(query)}`);
+    const response = await api.get<{ data: Producto[] }>(`/productos/buscar?q=${encodeURIComponent(query)}`);
     return response.data.data;
   },
 
@@ -127,18 +125,18 @@ export const catalogoService = {
     if (categoria) params.append('categoria', categoria);
     if (marcaId) params.append('marcaId', marcaId.toString());
     
-    const response = await api.get<{ data: FiltrosDinamicos }>(`${API_URL}/filtros?${params.toString()}`);
+    const response = await api.get<{ data: FiltrosDinamicos }>(`/productos/filtros?${params.toString()}`);
     return response.data.data;
   },
 
   // ==================== PRODUCTOS DESTACADOS ====================
   async getProductosDestacados(limite: number = 8): Promise<Producto[]> {
-    const response = await api.get<{ data: Producto[] }>(`${API_URL}/productos/destacados?limite=${limite}`);
+    const response = await api.get<{ data: Producto[] }>(`/productos/destacados?limite=${limite}`);
     return response.data.data;
   },
 
   async getProductosNuevos(limite: number = 8): Promise<Producto[]> {
-    const response = await api.get<{ data: Producto[] }>(`${API_URL}/productos/nuevos?limite=${limite}`);
+    const response = await api.get<{ data: Producto[] }>(`/productos/nuevos?limite=${limite}`);
     return response.data.data;
   },
 };

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Header from '../components/Layout/Header';
 import Footer from '../components/Layout/Footer';
@@ -8,7 +8,6 @@ import { useCarrito } from '../context/CarritoContext';
 import { useFavoritos } from '../context/FavoritosContext';
 import { useAuth } from '../context/AuthContext';
 import catalogoService from '../services/catalogo.service';
-import { crearPedido } from '../services/pedido.service';
 import { getImagenProductoUrl, PLACEHOLDER_PRODUCTO } from '../config/api.config';
 import { Producto } from '../types/catalogo.types';
 import './CarritoPage.css';
@@ -41,47 +40,39 @@ const CarritoPage: React.FC = () => {
   const [modalVaciar, setModalVaciar] = useState(false);
   const [modalEliminar, setModalEliminar] = useState<{show: boolean, id: string, nombre: string}>({ show: false, id: '', nombre: '' });
 
+  // ✅ Ref para evitar navegaciones múltiples
+  const navegacionRealizadaRef = useRef(false);
+
   // ✅ Detectar intención de checkout después del login
   useEffect(() => {
     const intentoCheckout = localStorage.getItem('intentoCheckout');
-    if (intentoCheckout === 'true' && isAuthenticated && carritoId && items.length > 0) {
+    
+    if (
+      intentoCheckout === 'true' && 
+      isAuthenticated && 
+      carritoId && 
+      items.length > 0 &&
+      !navegacionRealizadaRef.current
+    ) {
+      console.log('✅ Usuario autenticado, redirigiendo al checkout...');
+      navegacionRealizadaRef.current = true;
+      
       // Limpiar flag
       localStorage.removeItem('intentoCheckout');
       
-      // Crear pedido automáticamente y redirigir al checkout
-      const crearPedidoYRedirigir = async () => {
-        setIsCreatingPedido(true);
-        try {
-          const response = await crearPedido({
-            carritoId,
-            canal: 'WEB',
-          });
-          
-          const pedidoId = response.data.id_pedido;
-          console.log('✅ Pedido creado automáticamente después del login:', pedidoId);
-          
-          // Guardar datos del pedido para checkout
-          const pedidoData = {
-            id_pedido: pedidoId,
-            items: items,
-            total: totalPrecio,
-            fecha: new Date().toISOString(),
-          };
-          localStorage.setItem('pedidoActual', JSON.stringify(pedidoData));
-          
-          mostrarNotificacion('Redirigiendo al checkout...', 'success');
-          
-          // Ir a checkout
-          setTimeout(() => navigate('/checkout'), 800);
-        } catch (error: any) {
-          console.error('❌ Error creando pedido automático:', error);
-          const mensaje = error.response?.data?.message || 'Error al procesar el pedido';
-          mostrarNotificacion(mensaje, 'error');
-          setIsCreatingPedido(false);
-        }
+      // Guardar datos del carrito para checkout
+      const carritoData = {
+        id_carrito: carritoId,
+        items: items,
+        total: totalPrecio,
+        fecha: new Date().toISOString(),
       };
+      localStorage.setItem('carritoCheckout', JSON.stringify(carritoData));
       
-      crearPedidoYRedirigir();
+      mostrarNotificacion('Redirigiendo al checkout...', 'success');
+      
+      // Navegación inmediata
+      navigate('/checkout', { replace: true });
     }
   }, [isAuthenticated, carritoId, items, totalPrecio, navigate]);
 
@@ -498,81 +489,48 @@ const CarritoPage: React.FC = () => {
                     </div>
                   </div>
 
-                  {/* Checkout Button - Crear Pedido */}
+                  {/* Checkout Button - Ir directo al checkout */}
                   <button 
-                    onClick={async () => {
+                    onClick={(e) => {
+                      e.preventDefault();
+                      
+                      console.log('🛒 Click en Proceder al Pago');
+                      console.log('🔐 isAuthenticated:', isAuthenticated);
+                      console.log('📦 carritoId:', carritoId);
+                      console.log('📋 items.length:', items.length);
+                      
                       if (!isAuthenticated) {
+                        console.log('❌ Usuario no autenticado, redirigiendo al login...');
                         mostrarNotificacion('Debes iniciar sesión para continuar', 'info');
-                        // Guardar intención de checkout para después del login
                         localStorage.setItem('intentoCheckout', 'true');
-                        setTimeout(() => {
-                          navigate('/login', { state: { from: '/carrito', intentoCheckout: true } });
-                        }, 1500);
+                        navigate('/login', { state: { from: '/carrito' } });
                         return;
                       }
 
-                      if (!carritoId) {
-                        mostrarNotificacion('Error: No se encontró el carrito', 'error');
+                      if (!carritoId || items.length === 0) {
+                        mostrarNotificacion('Error: El carrito está vacío', 'error');
                         return;
                       }
 
-                      setIsCreatingPedido(true);
-                      try {
-                        // Crear el pedido (copia carrito_detalle a pedido_detalle)
-                        const response = await crearPedido({
-                          carritoId,
-                          canal: 'WEB',
-                        });
-                        
-                        const pedidoId = response.data.id_pedido;
-                        console.log('✅ Pedido creado:', pedidoId);
-                        
-                        // Guardar datos del pedido para checkout
-                        const pedidoData = {
-                          id_pedido: pedidoId,
-                          items: items,
-                          total: totalPrecio,
-                          fecha: new Date().toISOString(),
-                        };
-                        localStorage.setItem('pedidoActual', JSON.stringify(pedidoData));
-                        
-                        // ✅ NO limpiar carritoId - el usuario puede cancelar y volver a editar
-                        // El carrito solo se cerrará cuando se confirme el pago en checkout
-                        
-                        mostrarNotificacion('Pedido creado. Procede al pago.', 'success');
-                        
-                        // Ir a checkout para confirmar pago
-                        window.scrollTo({ top: 0, behavior: 'smooth' });
-                        setTimeout(() => navigate('/checkout'), 100);
-                      } catch (error: any) {
-                        console.error('❌ Error creando pedido:', error);
-                        const mensaje = error.response?.data?.message || 'Error al crear el pedido';
-                        
-                        // Si el error es 409 (carrito ya tiene pedido procesado), forzar nuevo carrito
-                        if (error.response?.status === 409) {
-                          localStorage.removeItem('barbox_carrito_id');
-                          localStorage.removeItem('carritoId');
-                          localStorage.removeItem('pedidoActual');
-                          mostrarNotificacion('El carrito tiene un pedido anterior. Recargando...', 'info');
-                          setTimeout(() => {
-                            window.location.reload();
-                          }, 1500);
-                        } else {
-                          mostrarNotificacion(mensaje, 'error');
-                        }
-                      } finally {
-                        setIsCreatingPedido(false);
-                      }
+                      console.log('✅ Todo OK, navegando al checkout...');
+                      
+                      // Guardar datos del carrito para checkout
+                      const carritoData = {
+                        id_carrito: carritoId,
+                        items: items,
+                        total: totalPrecio,
+                        fecha: new Date().toISOString(),
+                      };
+                      localStorage.setItem('carritoCheckout', JSON.stringify(carritoData));
+                      
+                      // Navegar inmediatamente
+                      navigate('/checkout', { replace: true });
                     }}
                     className="btn btn--primary btn--block btn--lg checkout-btn"
-                    disabled={isCreatingPedido || items.length === 0}
+                    disabled={items.length === 0}
                   >
                     <span className="checkout-btn-text">
-                      {isCreatingPedido ? (
-                        <><i className="fas fa-spinner fa-spin"></i> Creando pedido...</>
-                      ) : (
-                        <><i className="fas fa-shopping-bag"></i> Proceder al Pago</>
-                      )}
+                      <><i className="fas fa-shopping-bag"></i> Proceder al Pago</>
                     </span>
                     <span className="checkout-btn-price">${total.toFixed(2)}</span>
                   </button>

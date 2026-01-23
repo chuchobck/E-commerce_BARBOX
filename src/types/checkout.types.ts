@@ -12,17 +12,19 @@ export interface PuntoRetiro {
 }
 
 export interface MetodoPago {
-  id: string;
+  id_metodo_pago: number;
   nombre: string;
+  codigo: string;
   descripcion?: string;
-  requiere_datos_adicionales: boolean;
-  disponible_web: boolean;
+  requiere_datos_adicionales?: boolean;
+  disponible_web?: boolean;
 }
 
 export interface CheckoutData {
-  carrito_id: string;
-  metodo_pago_id: string;
-  sucursal_retiro_id: string;
+  id_carrito: string;
+  id_metodo_pago: number;
+  id_cliente: number;
+  id_iva: number;
   datos_pago?: {
     numero_tarjeta?: string;
     nombre_titular?: string;

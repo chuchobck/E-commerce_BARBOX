@@ -1142,3 +1142,316 @@ input[type="checkbox"] {
     font-size: 0.85rem;
   }
 }
+
+/* ==========================================
+   PAYPAL SECTION
+   ========================================== */
+.paypal-section {
+  padding: 20px 0;
+}
+
+.paypal-info {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.paypal-logo {
+  max-width: 150px;
+  margin-bottom: 15px;
+}
+
+.paypal-info p {
+  color: #666;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.paypal-buttons-container {
+  max-width: 400px;
+  margin: 0 auto 25px;
+  min-height: 150px;
+}
+
+.paypal-features {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+  padding-top: 20px;
+  border-top: 1px solid #e0e0e0;
+}
+
+.paypal-features .feature {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #666;
+  font-size: 13px;
+}
+
+.paypal-features .feature i {
+  color: #0070ba;
+  font-size: 18px;
+}
+
+/* ==========================================
+   CREDIT CARD SECTION
+   ========================================== */
+.card-section {
+  padding: 20px 0;
+}
+
+/* Vista previa de tarjeta 3D */
+.card-preview {
+  width: 320px;
+  height: 200px;
+  margin: 0 auto 30px;
+  perspective: 1000px;
+  cursor: pointer;
+}
+
+.card-preview.flipped .card-front {
+  transform: rotateY(180deg);
+}
+
+.card-preview.flipped .card-back {
+  transform: rotateY(0);
+}
+
+.card-front,
+.card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 16px;
+  backface-visibility: hidden;
+  transition: transform 0.6s ease;
+  padding: 25px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+}
+
+.card-front {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.card-back {
+  background: linear-gradient(135deg, #16213e 0%, #1a1a2e 100%);
+  transform: rotateY(180deg);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.card-chip {
+  width: 50px;
+  height: 40px;
+  background: linear-gradient(135deg, #ffd700 0%, #daa520 100%);
+  border-radius: 8px;
+  position: relative;
+}
+
+.card-chip::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 30px;
+  height: 25px;
+  border: 2px solid rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}
+
+.card-type-logo {
+  position: absolute;
+  top: 25px;
+  right: 25px;
+  font-size: 40px;
+  opacity: 0.9;
+}
+
+.card-type-logo .fa-cc-visa { color: #1a1f71; }
+.card-type-logo .fa-cc-mastercard { color: #ff5f00; }
+.card-type-logo .fa-cc-amex { color: #006fcf; }
+.card-type-logo .fa-credit-card { color: rgba(255, 255, 255, 0.5); }
+
+.card-number-display {
+  font-size: 22px;
+  letter-spacing: 3px;
+  font-family: 'Courier New', monospace;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  margin-top: auto;
+}
+
+.card-bottom {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+}
+
+.card-holder,
+.card-expiry {
+  display: flex;
+  flex-direction: column;
+}
+
+.card-holder .label,
+.card-expiry .label,
+.card-cvv-display .label {
+  font-size: 10px;
+  text-transform: uppercase;
+  opacity: 0.7;
+  margin-bottom: 4px;
+}
+
+.card-holder .value,
+.card-expiry .value {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+.card-stripe {
+  width: 100%;
+  height: 45px;
+  background: #333;
+  margin-bottom: 20px;
+}
+
+.card-cvv-display {
+  background: white;
+  color: #333;
+  padding: 10px 15px;
+  border-radius: 4px;
+  width: 80px;
+  margin-left: auto;
+  text-align: right;
+}
+
+.card-cvv-display .value {
+  font-size: 16px;
+  font-weight: 700;
+  font-family: 'Courier New', monospace;
+}
+
+/* Formulario de tarjeta */
+.card-form {
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.btn-pagar {
+  width: 100%;
+  margin-top: 20px;
+  padding: 16px 24px;
+  font-size: 16px;
+}
+
+.card-logos {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 25px;
+  padding-top: 20px;
+  border-top: 1px solid #e0e0e0;
+}
+
+.card-logos i {
+  font-size: 36px;
+  color: #888;
+  transition: color 0.3s;
+}
+
+.card-logos i:hover {
+  color: #333;
+}
+
+.card-logos .fa-cc-visa:hover { color: #1a1f71; }
+.card-logos .fa-cc-mastercard:hover { color: #ff5f00; }
+.card-logos .fa-cc-amex:hover { color: #006fcf; }
+.card-logos .fa-cc-discover:hover { color: #ff6000; }
+
+/* ==========================================
+   CHECKOUT WRAPPER - Grid Layout
+   ========================================== */
+.checkout-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 30px;
+  align-items: start;
+}
+
+.checkout-form {
+  background: white;
+  border-radius: 12px;
+  padding: 30px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.summary-divider {
+  height: 1px;
+  background: #e0e0e0;
+  margin: 15px 0;
+}
+
+.cart-items {
+  max-height: 250px;
+  overflow-y: auto;
+}
+
+/* ==========================================
+   LOADING SCREEN
+   ========================================== */
+.loading-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  gap: 20px;
+}
+
+.loading-screen p {
+  color: #666;
+  font-size: 16px;
+}
+
+/* ==========================================
+   RESPONSIVE - Card Preview
+   ========================================== */
+@media (max-width: 576px) {
+  .card-preview {
+    width: 280px;
+    height: 175px;
+  }
+  
+  .card-front,
+  .card-back {
+    padding: 20px;
+  }
+  
+  .card-number-display {
+    font-size: 18px;
+    letter-spacing: 2px;
+  }
+  
+  .card-type-logo {
+    font-size: 32px;
+    top: 20px;
+    right: 20px;
+  }
+  
+  .paypal-features {
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+  }
+  
+  .checkout-wrapper {
+    grid-template-columns: 1fr;
+  }
+}
