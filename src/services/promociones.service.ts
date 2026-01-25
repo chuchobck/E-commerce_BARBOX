@@ -166,4 +166,5 @@ class PromocionesService {
   }
 }
 
-export default new PromocionesService();
+const promocionesService = new PromocionesService();
+export default promocionesService;

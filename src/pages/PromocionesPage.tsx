@@ -35,7 +35,7 @@ const PromocionesPage: React.FC = () => {
   // Estados
   const [promociones, setPromociones] = useState<Promocion[]>([]);
   const [categorias, setCategorias] = useState<CategoriaPromocion[]>([]);
-  const [loadingCategorias, setLoadingCategorias] = useState(true);
+  const [, setLoadingCategorias] = useState(true);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   
@@ -43,8 +43,8 @@ const PromocionesPage: React.FC = () => {
   const [categoriaActiva, setCategoriaActiva] = useState<string | null>(null);
   const [ordenActivo, setOrdenActivo] = useState<string>('destacado');
   const [tituloSeccion, setTituloSeccion] = useState('Todas las Promociones');
-  const [minPrecio, setMinPrecio] = useState<string>('');
-  const [maxPrecio, setMaxPrecio] = useState<string>('');
+  const [minPrecio] = useState<string>('');
+  const [maxPrecio] = useState<string>('');
   const [minPrecioFiltro, setMinPrecioFiltro] = useState<string>('');
   const [maxPrecioFiltro, setMaxPrecioFiltro] = useState<string>('');
   
@@ -183,6 +183,7 @@ const PromocionesPage: React.FC = () => {
     setOrdenActivo(orden);
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleAplicarFiltros = () => {
     setMinPrecioFiltro(minPrecio);
     setMaxPrecioFiltro(maxPrecio);
@@ -217,6 +218,7 @@ const PromocionesPage: React.FC = () => {
     return ICONOS_OCASIONES[nombre] || ICONOS_OCASIONES['default'];
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const getBandera = (origen: string): string => {
     const banderas: { [key: string]: string } = {
       'Chile': '🇨🇱',

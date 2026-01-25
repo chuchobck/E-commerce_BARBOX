@@ -9,7 +9,7 @@
  */
 export const validarCedulaEcuatoriana = (cedula: string): boolean => {
   // Eliminar espacios y guiones
-  cedula = cedula.replace(/[\s\-]/g, '');
+  cedula = cedula.replace(/[\s-]/g, '');
 
   // Verificar que tenga exactamente 10 dígitos
   if (!/^\d{10}$/.test(cedula)) {
@@ -58,7 +58,7 @@ export const validarCedulaEcuatoriana = (cedula: string): boolean => {
  */
 export const validarRUCEcuatoriano = (ruc: string): boolean => {
   // Eliminar espacios y guiones
-  ruc = ruc.replace(/[\s\-]/g, '');
+  ruc = ruc.replace(/[\s-]/g, '');
 
   // Verificar que tenga exactamente 13 dígitos
   if (!/^\d{13}$/.test(ruc)) {
@@ -125,7 +125,7 @@ const validarRUCPrivado = (ruc: string): boolean => {
  * @returns true si es válido, false si no lo es
  */
 export const validarCedulaORUC = (valor: string): boolean => {
-  const limpio = valor.replace(/[\s\-]/g, '');
+  const limpio = valor.replace(/[\s-]/g, '');
   
   if (limpio.length === 10) {
     return validarCedulaEcuatoriana(limpio);

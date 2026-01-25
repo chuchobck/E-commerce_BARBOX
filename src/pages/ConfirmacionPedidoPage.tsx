@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import Header from '../components/Layout/Header';
 import Footer from '../components/Layout/Footer';
 import './ConfirmacionPedidoPage.css';
@@ -16,7 +16,6 @@ interface FacturaData {
 }
 
 const ConfirmacionPedidoPage: React.FC = () => {
-  const navigate = useNavigate();
   const location = useLocation();
   const facturaData = location.state?.factura as FacturaData;
 

@@ -251,10 +251,12 @@ export const createRetryHandler = (maxRetries: number = 3, delayMs: number = 100
   };
 };
 
-export default {
+const errorHandler = {
   getErrorInfo,
   formatErrorMessage,
   isRecoverableError,
   createRetryHandler,
   ERROR_MESSAGES
 };
+
+export default errorHandler;
