@@ -67,6 +67,7 @@ const CatalogFilters: React.FC<CatalogFiltersProps> = ({
     handleMarcaChange(marcaId);
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleEnStockChange = () => {
     onFiltrosChange({ enStock: !filtros.enStock });
   };

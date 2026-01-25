@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { useSearchParams, Link } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import Header from '../components/Layout/Header';
 import Footer from '../components/Layout/Footer';
 import ProductCard from '../components/Catalog/ProductCard';
@@ -18,6 +18,7 @@ import './CatalogoPage.css';
 
 const CatalogoPage: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { totalItems } = useCarrito();
 
   // Estados
@@ -30,6 +31,7 @@ const CatalogoPage: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
 
   // Paginación para carga perezosa
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [totalProductos, setTotalProductos] = useState(0);
   const [paginaActual, setPaginaActual] = useState(1);
   const [hayMasProductos, setHayMasProductos] = useState(true);
@@ -159,7 +161,8 @@ const CatalogoPage: React.FC = () => {
       setLoading(false);
       setLoadingMore(false);
     }
-  }, [filtros, paginaActual, loading, loadingMore, productosPorPagina]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filtros, paginaActual, loading, loadingMore]);
 
   useEffect(() => {
     // Asegurar que la vista vuelva al inicio del catálogo al cambiar filtros
@@ -170,6 +173,7 @@ const CatalogoPage: React.FC = () => {
     }
 
     cargarProductos(true); // Reset cuando cambian filtros
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filtros.categoriaId, filtros.marcaId, filtros.busqueda, filtros.ordenarPor, filtros.precioMin, filtros.precioMax, filtros.volumen, filtros.origen, filtros.enStock]);
 
   // Intersection Observer para carga perezosa
@@ -248,6 +252,7 @@ const CatalogoPage: React.FC = () => {
     setHayMasProductos(true);
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleOrdenarChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     handleFiltrosChange({ ordenarPor: e.target.value as FiltrosProducto['ordenarPor'] });
   };

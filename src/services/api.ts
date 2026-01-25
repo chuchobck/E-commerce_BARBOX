@@ -1,4 +1,4 @@
-﻿import axios from 'axios';
+import axios from 'axios';
 import { API_URL } from '../config/api.config';
 
 // Crear instancia de axios con URL desde config

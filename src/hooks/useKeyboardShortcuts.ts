@@ -1,7 +1,7 @@
 // src/hooks/useKeyboardShortcuts.ts
 // Hook para atajos de teclado - Heurística #7: Flexibilidad y Eficiencia
 import { useEffect, useCallback } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useCarrito } from '../context/CarritoContext';
 
 export interface KeyboardShortcut {
@@ -26,7 +26,6 @@ export interface KeyboardShortcut {
  */
 export const useKeyboardShortcuts = () => {
   const navigate = useNavigate();
-  const location = useLocation();
   const { items } = useCarrito();
 
   // Acciones disponibles
@@ -132,6 +131,7 @@ export const useKeyboardShortcuts = () => {
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [actions]);
 
   // Retornar lista de atajos para mostrar en ayuda

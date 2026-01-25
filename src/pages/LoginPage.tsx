@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate, useLocation, Link } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import Header from '../components/Layout/Header';
 import Footer from '../components/Layout/Footer';
 import Login from '../components/Auth/Login';
@@ -7,7 +7,6 @@ import Register from '../components/Auth/Register';
 import './LoginPage.css';
 
 const LoginPage: React.FC = () => {
-  const navigate = useNavigate();
   const location = useLocation();
   const [activeTab, setActiveTab] = useState<'login' | 'register'>('login');
 

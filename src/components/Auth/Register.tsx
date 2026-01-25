@@ -49,15 +49,15 @@ const Register: React.FC = () => {
       case 'apellido1':
         if (!value.trim()) return `Este campo es requerido`;
         if (value.trim().length < 2) return `Mínimo 2 caracteres`;
-        if (!/^[a-záéíóúñüA-ZÁÉÍÓÚÑÜ\s\-]+$/.test(value)) return `Solo letras permitidas`;
+        if (!/^[a-záéíóúñüA-ZÁÉÍÓÚÑÜ\s-]+$/.test(value)) return `Solo letras permitidas`;
         break;
       case 'nombre2':
       case 'apellido2':
-        if (value && !/^[a-záéíóúñüA-ZÁÉÍÓÚÑÜ\s\-]+$/.test(value)) return `Solo letras permitidas`;
+        if (value && !/^[a-záéíóúñüA-ZÁÉÍÓÚÑÜ\s-]+$/.test(value)) return `Solo letras permitidas`;
         break;
       case 'ruc_cedula':
         if (!value) return 'RUC/Cédula es requerido';
-        const limpio = value.replace(/[\s\-]/g, '');
+        const limpio = value.replace(/[\s-]/g, '');
         if (!/^\d{10,13}$/.test(limpio)) return 'Debe tener 10 o 13 dígitos';
         if (!validarCedulaORUC(value)) return 'Cédula/RUC inválido (verificar dígitos)';
         break;
@@ -95,7 +95,7 @@ const Register: React.FC = () => {
     // Prevenir números y caracteres especiales en campos de nombre
     if (['nombre1', 'nombre2', 'apellido1', 'apellido2'].includes(name)) {
       // Solo permitir letras, espacios, guiones y tildes
-      const soloLetras = value.replace(/[^a-záéíóúñüA-ZÁÉÍÓÚÑÜ\s\-]/g, '');
+      const soloLetras = value.replace(/[^a-záéíóúñüA-ZÁÉÍÓÚÑÜ\s-]/g, '');
       if (value !== soloLetras) {
         return; // No actualizar el estado si contiene caracteres no permitidos
       }
@@ -114,7 +114,7 @@ const Register: React.FC = () => {
     
     // Validar en tiempo real para usuario y email siempre, otros campos solo si están touched
     if (['usuario', 'email'].includes(name) || touched[name]) {
-      const error = validateField(name, ['nombre1', 'nombre2', 'apellido1', 'apellido2'].includes(name) ? value.replace(/[^a-záéíóúñüA-ZÁÉÍÓÚÑÜ\s\-]/g, '') : value);
+      const error = validateField(name, ['nombre1', 'nombre2', 'apellido1', 'apellido2'].includes(name) ? value.replace(/[^a-záéíóúñüA-ZÁÉÍÓÚÑÜ\s-]/g, '') : value);
       setFieldErrors(prev => ({ ...prev, [name]: error || '' }));
       
       // Si se modifica la contraseña, revalidar confirmación
@@ -167,9 +167,6 @@ const Register: React.FC = () => {
 
     setLoading(true);
     try {
-      // Generar ID de cliente de 7 caracteres (C + 6 dígitos)
-      const clienteId = 'C' + Date.now().toString().slice(-6).padStart(6, '0');
-      
       console.log('📝 Iniciando registro con datos:', {
         usuario: formData.usuario,
         nombre1: formData.nombre1,

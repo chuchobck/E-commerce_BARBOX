@@ -14,6 +14,7 @@ import './CarritoPage.css';
 
 const CarritoPage: React.FC = () => {
   const navigate = useNavigate();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { isAuthenticated, user } = useAuth();
   const { 
     items, 
@@ -27,11 +28,15 @@ const CarritoPage: React.FC = () => {
   } = useCarrito();
   
   const { toggleFavorito, esFavorito } = useFavoritos();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const toast = useToast();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [isCreatingPedido, setIsCreatingPedido] = useState(false);
   
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [codigoCupon, setCodigoCupon] = useState('');
   const [descuento, setDescuento] = useState(0);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [cuponAplicado, setCuponAplicado] = useState(false);
   const [mensajeNotificacion, setMensajeNotificacion] = useState<{texto: string, tipo: 'success' | 'error' | 'info'} | null>(null);
   const [productosRecomendados, setProductosRecomendados] = useState<Producto[]>([]);
@@ -200,7 +205,6 @@ const CarritoPage: React.FC = () => {
 
   // Confirmar eliminación
   const confirmarEliminar = () => {
-    const nombreProducto = modalEliminar.nombre;
     removerDelCarrito(modalEliminar.id);
     // toast.info(`"${nombreProducto}" eliminado del carrito`);
     mostrarNotificacion('Producto eliminado del carrito', 'info');
@@ -214,7 +218,6 @@ const CarritoPage: React.FC = () => {
 
   // Confirmar vaciar carrito
   const confirmarVaciarCarrito = () => {
-    const cantidadProductos = items.length;
     limpiarCarrito();
     setModalVaciar(false);
     // toast.success(`Se eliminaron ${cantidadProductos} productos del carrito`, 5000);
@@ -222,6 +225,7 @@ const CarritoPage: React.FC = () => {
   };
 
   // Aplicar cupón
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleAplicarCupon = (e: React.FormEvent) => {
     e.preventDefault();
     
@@ -258,6 +262,7 @@ const CarritoPage: React.FC = () => {
   const total = subtotal - descuentoTotal;
 
   // Obtener icono de categoría
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const getCategoryIcon = (categoria?: string): string => {
     const iconMap: Record<string, string> = {
       'Vino': 'fa-wine-glass-alt',
