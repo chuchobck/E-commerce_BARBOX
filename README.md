@@ -1,4 +1,4 @@
-# 🍷 BARBOX — E-commerce
+# 🍷 BARBOX — E-commerce :  https://e-commerce-barbox.vercel.app
 
 > **Calificación del proyecto: 100/100** — Tienda online completa con pagos PayPal reales, accesibilidad WCAG 2.2 AA y arquitectura de contextos para estado global.
 
