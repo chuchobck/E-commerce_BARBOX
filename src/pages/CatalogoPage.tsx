@@ -73,7 +73,21 @@ const CatalogoPage: React.FC = () => {
     const cargarCategorias = async () => {
       try {
         const data = await catalogoService.getCategorias();
-        setCategorias(data);
+        
+        // ✅ Eliminar duplicados por id_prod_categoria y nombre
+        const categoriasUnicas = data.reduce((acc, cat) => {
+          const existe = acc.find(c => 
+            c.id_prod_categoria === cat.id_prod_categoria || 
+            c.nombre.toLowerCase() === cat.nombre.toLowerCase()
+          );
+          if (!existe) {
+            acc.push(cat);
+          }
+          return acc;
+        }, [] as Categoria[]);
+        
+        console.log(`✅ Categorías cargadas: ${data.length} (${categoriasUnicas.length} únicas)`);
+        setCategorias(categoriasUnicas);
       } catch (err) {
         console.error('Error cargando categorías:', err);
       }
